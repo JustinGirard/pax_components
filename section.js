@@ -1,4 +1,4 @@
-define(["jquery",'components/uuid4'], function($) {
+define(["jquery",'components/content','components/uuid4'], function($,content) {
     var module = {
         'dependencies':{}
     };
@@ -34,7 +34,22 @@ define(["jquery",'components/uuid4'], function($) {
                 instance.upper_html = instance.upper_component.render();
             }
             
-            if (instance.title.render == undefined)
+            
+            if (instance.inner_component == undefined)
+            {
+                instance.inner_component = content.create("");
+            }
+            else if (instance.inner_component.render == undefined)
+            {
+                instance.inner_component = content.create(instance.inner_component);
+            }
+            
+            
+            if (instance.title == undefined)
+            {
+                instance.title_html = "";
+            }
+            else if (instance.title.render == undefined)
             {
                 instance.title_html = instance.title;
             }
