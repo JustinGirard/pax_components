@@ -62,7 +62,7 @@ define(["jquery",'components/content','components/uuid4'], function($,content) {
             return ` 
             <div id='${instance['_id']}' class="bg-white   shadow rounded-lg space-x-1">
               <div class="px-4 py-5 sm:p-6">
-                        <div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
+                        <div class="bg-white  py-5 border-gray-200 "><!-- px-4 sm:px-6 -->
                           <div class="-ml-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-nowrap">
                             <div class="ml-4 mt-2">
                               <h3 class="text-lg leading-6 font-medium text-gray-900">

@@ -3,7 +3,6 @@ define(["jquery",'components/sidenav_item'], function($,nav_item) {
         'dependencies':{
             'page_head':`<link href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.css" rel="stylesheet" />
         <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-        <link href="gwella.css" rel="stylesheet">
         `}
         
     };

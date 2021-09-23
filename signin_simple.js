@@ -11,7 +11,7 @@ define(["jquery","doencode","paxdk",'components/alert','components/cookie'], fun
 
             <div class="space-y-1">
               <label for="password" class="block text-sm font-medium text-gray-700">
-                Accesscode
+                accesscode
               </label>
               <div class="mt-1">
                 <input id="simple_password" name="password" type="password" autocomplete="current-password" required class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
@@ -74,14 +74,17 @@ define(["jquery","doencode","paxdk",'components/alert','components/cookie'], fun
                     instance['pq'] = instance['appstate'].get('pq');
                     instance.pq.query('get_api_key',packet,function(data)
                     {
+                        console.log("HITTING LOGIN QUERY")
                         if (data['api_key'] && data['api_key']!='__unauthorized')
                         {
+                            console.log("GOT LOGIN QUERY")
                             instance['api_key'] = data['api_key'];
-                            instance.on_login();
                             cookie.set('pax_api_key',data['api_key']);
+                            instance.on_login();
                         }
                         else
                         {
+                            console.log("FAIL LOGIN QUERY")
                             instance['alert_component'].show();
                         }
                     });
