@@ -20,9 +20,6 @@ define(["jquery","components/content"], function($,content_module) {
         </p> --->
       </div>
       <div class="mt-8">`,
-            
-            
-            
             'page_end':`
       </div>
     </div>

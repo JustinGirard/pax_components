@@ -62,7 +62,7 @@ define(['require','jquery','components/uuid4'],function (require,$)
         }
         instance.bind = function()
         {
-            $("#"+instance.__id).click(instance['click_decorate']);
+            $("div #"+instance.__id).click(instance['click_decorate']);
         } 
         return instance
     } 

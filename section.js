@@ -1,4 +1,4 @@
-define(["jquery",'components/uuid4'], function($) {
+define(["jquery",'components/content','components/uuid4'], function($,content) {
     var module = {
         'dependencies':{}
     };
@@ -6,9 +6,17 @@ define(["jquery",'components/uuid4'], function($) {
     {
         var instance ={};
         instance['_id'] ='section_'+uuid4();
+        
         instance['inner_component'] =data['content_instance'];
         instance['upper_component'] =data['header_instance'];
         instance['title'] =data['title'];
+        instance['section_classes'] =data['section_classes'];
+        
+        if (instance.section_classes == undefined)
+        {
+            instance.section_classes = "bg-white";
+        }
+        
         instance.head = function()
         {
             return "";
@@ -31,10 +39,33 @@ define(["jquery",'components/uuid4'], function($) {
             }
             else
             {
-                instance.upper_html = instance.upper_component.render();
+                if (instance.upper_component.render == undefined)
+                {
+                    instance.upper_html = instance.upper_component;
+                    
+                }
+                else
+                {
+                    instance.upper_html = instance.upper_component.render();
+                }
             }
             
-            if (instance.title.render == undefined)
+            
+            if (instance.inner_component == undefined)
+            {
+                instance.inner_component = content.create("");
+            }
+            else if (instance.inner_component.render == undefined)
+            {
+                instance.inner_component = content.create(instance.inner_component);
+            }
+            
+            
+            if (instance.title == undefined)
+            {
+                instance.title_html = "";
+            }
+            else if (instance.title.render == undefined)
             {
                 instance.title_html = instance.title;
             }
@@ -43,18 +74,19 @@ define(["jquery",'components/uuid4'], function($) {
                 instance.title_html = instance.title.render();
             }
             
-            //overflow-hidden
+            //overflow-hidden 
+            // <div class="-ml-4 mt-2 flex flex-wrap sm:flex-nowrap">
             return ` 
-            <div id='${instance['_id']}' class="bg-white   shadow rounded-lg space-x-1">
+            <div id='${instance['_id']}' class=" ${instance.section_classes}  shadow rounded-lg space-x-1">
               <div class="px-4 py-5 sm:p-6">
-                        <div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
-                          <div class="-ml-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-nowrap">
-                            <div class="ml-4 mt-2">
+                        <div class="bg-white   border-b border-gray-200 ">
+                          <div class="flex flex-wrap sm:flex-nowrap">
+                            <div class=" ">
                               <h3 class="text-lg leading-6 font-medium text-gray-900">
                                 ${instance.title_html}
                               </h3>
                             </div>
-                            <div class="ml-4 mt-2 flex-shrink-0">
+                            <div class=" mt-2 flex-shrink-0">
                                 ${instance.upper_html}
                             </div>
                           </div>
@@ -66,7 +98,7 @@ define(["jquery",'components/uuid4'], function($) {
         instance.bind= function()
         {
             instance.inner_component.bind();
-            if (instance.upper_component != undefined)
+            if (instance.upper_component != undefined && instance.upper_component.bind != undefined )
             {
                 instance.upper_component.bind();
             }
