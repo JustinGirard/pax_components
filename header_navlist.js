@@ -105,7 +105,7 @@ define(["jquery",'components/link','components/uuid4'], function($,link) {
             //class="flex-shrink-0 relative h-16 bg-white flex items-center"
             return ` 
                 <header class="relative"  id='${instance['_id']}'>
-                  <div class="bg-gray-900 pt-6 py-5">
+                  <div class="bg-gray-900 pt-6">
                     <nav class="relative max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6" aria-label="Global">
                       <div class="flex items-center flex-1">
                         <div class="flex items-center justify-between w-full md:w-auto">
