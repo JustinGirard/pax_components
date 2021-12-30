@@ -7,6 +7,7 @@ define(["jquery",'components/content','components/uuid4'], function($,content) {
         var instance ={};
         instance['_id'] ='section_'+uuid4();
         instance['background_image'] =data['background_image'];
+        
         instance['left_component'] =data['left_instance'];
         instance['right_component'] =data['right_instance'];
         instance['section_classes'] =data['section_classes'];
@@ -15,7 +16,7 @@ define(["jquery",'components/content','components/uuid4'], function($,content) {
         {
             instance.section_classes = "bg-white";
         }
-        
+        //alert(instance.section_classes);
         instance.head = function()
         {
             return "";
@@ -70,7 +71,7 @@ define(["jquery",'components/content','components/uuid4'], function($,content) {
             //overflow-hidden
             return `<div class="py-12 ${instance.section_classes} " style='${instance.background_image_html}'>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="mt-10">
+    <div class="">
       <dl class="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
         
         <div class="relative">

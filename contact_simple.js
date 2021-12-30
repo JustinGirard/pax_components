@@ -3,15 +3,15 @@ define(["jquery","doencode","paxdk",'components/alert','components/cookie'], fun
         'dependencies':{
             'alert':alert_module,
             'form_html':`<div class="mt-6">
-            <form action="#"  id='simple_contact' method="POST" class="space-y-6 ">
+            <form action="#"  id='simple_contact' method="POST" class="space-y-6  ">
                 <div class="space-y-1">
                   <div class="mt-1">
-                    <input id="simple_email" name="email" type="text" placeholder="example@email.com" autocomplete="current-password" required class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <input id="simple_email" name="email" type="text" placeholder="example@email.com" autocomplete="current-password" required class="appearance-none w-80 px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                   </div>
                 </div>
                 <div>
-                  <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Contact
+                  <button type="submit" class="w-80 justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    JOIN THE WAITLIST
                   </button>
                 </div>
           </form>
@@ -23,6 +23,11 @@ define(["jquery","doencode","paxdk",'components/alert','components/cookie'], fun
         var instance ={};
         instance['appstate'] = data['appstate'];
         instance['on_login'] = data['on_login'];
+        instance['label'] = data['label'];
+        if (instance.label == undefined)
+        {
+            instance.label = 'CONTACT';
+        }
         instance['alert_component'] = module.dependencies['alert'].create({'html':"Could not sent request"});
         instance['success_component'] = module.dependencies['alert'].create({'html':"Sent!",'color':'green'});
         instance['form_html'] = module.dependencies['form_html'];

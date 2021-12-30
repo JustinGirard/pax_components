@@ -27,7 +27,6 @@ define(['require','jquery','components/uuid4'],function (require,$)
             $("#"+instance.__id+" .animate-spin").fadeOut(10);
             $("#"+instance.__id+" .label").css('opacity',1.0);
         }
-
         
         instance.render = function()
         {
