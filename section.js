@@ -6,9 +6,17 @@ define(["jquery",'components/content','components/uuid4'], function($,content) {
     {
         var instance ={};
         instance['_id'] ='section_'+uuid4();
+        
         instance['inner_component'] =data['content_instance'];
         instance['upper_component'] =data['header_instance'];
         instance['title'] =data['title'];
+        instance['section_classes'] =data['section_classes'];
+        
+        if (instance.section_classes == undefined)
+        {
+            instance.section_classes = "bg-white";
+        }
+        
         instance.head = function()
         {
             return "";
@@ -31,7 +39,15 @@ define(["jquery",'components/content','components/uuid4'], function($,content) {
             }
             else
             {
-                instance.upper_html = instance.upper_component.render();
+                if (instance.upper_component.render == undefined)
+                {
+                    instance.upper_html = instance.upper_component;
+                    
+                }
+                else
+                {
+                    instance.upper_html = instance.upper_component.render();
+                }
             }
             
             
@@ -58,18 +74,19 @@ define(["jquery",'components/content','components/uuid4'], function($,content) {
                 instance.title_html = instance.title.render();
             }
             
-            //overflow-hidden
+            //overflow-hidden 
+            // <div class="-ml-4 mt-2 flex flex-wrap sm:flex-nowrap">
             return ` 
-            <div id='${instance['_id']}' class="bg-white   shadow rounded-lg space-x-1">
-              <div class="px-4 py-5 sm:p-6">
-                        <div class="bg-white  py-5 border-gray-200 "><!-- px-4 sm:px-6 -->
-                          <div class="-ml-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-nowrap">
-                            <div class="ml-4 mt-2">
+            <div id='${instance['_id']}' class=" ${instance.section_classes}  shadow rounded-lg space-x-1 section-container">
+              <div class="px-4 py-5 sm:p-6 travis">
+                        <div class="bg-white  py-5 border-gray-200 ">
+                          <div class="-mt-2 flex items-center justify-between flex-wrap sm:flex-nowrap">
+                            <div class=" ">
                               <h3 class="text-lg leading-6 font-medium text-gray-900">
                                 ${instance.title_html}
                               </h3>
                             </div>
-                            <div class="ml-4 mt-2 flex-shrink-0">
+                            <div class=" mt-2 flex-shrink-0">
                                 ${instance.upper_html}
                             </div>
                           </div>
@@ -81,7 +98,7 @@ define(["jquery",'components/content','components/uuid4'], function($,content) {
         instance.bind= function()
         {
             instance.inner_component.bind();
-            if (instance.upper_component != undefined)
+            if (instance.upper_component != undefined && instance.upper_component.bind != undefined )
             {
                 instance.upper_component.bind();
             }

@@ -15,6 +15,7 @@ define(["jquery",'zdog'], function($) {
         {
             
             return ` 
+ 
             <div class="bg-white overflow-hidden shadow rounded-lg space-x-1">
               <div class="px-4 py-5 sm:p-6">
                 <!-- Content goes here -->
@@ -29,7 +30,9 @@ define(["jquery",'zdog'], function($) {
                         <p>ZCANVAS</p>
                         <canvas class="zdog-canvas" width="24" height="24"></canvas>
               </div>
-            </div>`;
+            </div>
+
+            `;
         } 
         instance.bind= function()
         {

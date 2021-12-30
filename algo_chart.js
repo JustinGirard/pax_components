@@ -14,7 +14,7 @@ define(['require',"jquery","paxdk",'components/cookie','d3','c3'], function(requ
         } 
         instance.render = function()
         {
-            return `<div id='chart_id'>loading . . . </div>`;
+            return `<div id='chart_id' class='' >loading . . . </div>`;
         } 
         instance.bind = function()
         {
