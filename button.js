@@ -1,16 +1,13 @@
-define(['require','jquery','components/uuid4'],function (require,$) 
+define(['require','jquery','components/base','components/button','components/uuid4'],function (require,$,base,button) 
 {
-    var module = {'dependencies':{
-                                }
-                 };
+    var module = {'dependencies':{}};
     
     module.create = function(data)
     {
-        var instance = {}
-        instance['__id'] = "button_"+uuid4();
-        instance['label'] = data.label;
-        instance['on_click'] = data.on_click;
-        //return  true;
+        var instance = base.create(data);
+        instance['label'] = instance.extract_field(data.label,"'label' field");
+        instance['on_click'] =  instance.extract_field(data.on_click,function(){alert("'on_click' field needs to be assigned")});
+        
         module.head = function()
         {
             return  "";
@@ -18,20 +15,20 @@ define(['require','jquery','components/uuid4'],function (require,$)
         instance.show_loader = function()
         {
             //alert("spinning");
-            $("#"+instance.__id+" .animate-spin").fadeIn(10);
-            $("#"+instance.__id+" .label").css('opacity',0.0);
+            $("#"+instance.id()+" .animate-spin").fadeIn(10);
+            $("#"+instance.id()+" .label").css('opacity',0.0);
             
         }
         instance.hide_loader = function()
         {
-            $("#"+instance.__id+" .animate-spin").fadeOut(10);
-            $("#"+instance.__id+" .label").css('opacity',1.0);
+            $("#"+instance.id()+" .animate-spin").fadeOut(10);
+            $("#"+instance.id()+" .label").css('opacity',1.0);
         }
 
         
         instance.render = function()
         {
-            return  `<button id='${instance['__id']}' type="button" class="relative inline-flex items-center mx-1.5 px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            return  `<button id='${instance.id()}' type="button" class="relative inline-flex items-center mx-1.5 px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
         <svg class="animate-spin h-5 w-5 mr-3" style="display:none; position:absolute;" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" stroke="#fff">
             <g fill="none" fill-rule="evenodd">
                 <g transform="translate(1 1)" stroke-width="2">
@@ -62,7 +59,7 @@ define(['require','jquery','components/uuid4'],function (require,$)
         }
         instance.bind = function()
         {
-            $("div #"+instance.__id).click(instance['click_decorate']);
+            $("div #"+instance.id()).click(instance['click_decorate']);
         } 
         return instance
     } 
