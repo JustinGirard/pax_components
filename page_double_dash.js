@@ -27,24 +27,11 @@ define(["jquery",'components/base','components/sidenav_item'], function($,base,n
         {
             return instance['page_head'];
         } 
-        instance.id = function()
-        {
-            return "page_main_bdjff";
-        } 
 
         instance.render = function()
         {
-            if (instance.header_bar == null)
-            {
-                header_html = "NO HEADER";
-            }
-            else
-            {
-                instance.header_bar_html = "";
-                if (instance.header_bar != undefined && instance.header_bar.render != undefined )
-                    instance.header_bar_html = instance.header_bar.render();
-                header_html = instance.header_bar_html;
-            }
+            header_html = instance.extract_html(instance.header_bar);
+            
             if (instance.nav_items == null)
             {
                 console.log("NO NAV BAR 2");
@@ -72,7 +59,7 @@ define(["jquery",'components/base','components/sidenav_item'], function($,base,n
               </aside>`;
             }
             
-            page_html = `<div id='page_main_bdjff' style='display:none' class="h-screen overflowDEAD-hiddenDEAD bg-gray-100 flex flex-col">
+            page_html = `<div id='${instance.id()}' style='display:none' class="h-screen overflowDEAD-hiddenDEAD bg-gray-100 flex flex-col">
   <!-- Top nav-->
     ${header_html}
 

@@ -8,6 +8,13 @@ define(["jquery",'components/base','components/list_detailed_item','components/u
         demo_items.push(list_item_detailed.create({}));
 
         instance.items = instance.extract_field(data['items'],demo_items);
+        
+        instance.reload = function()
+        {
+            $(`#${instance.id()} ul`).empty();
+            $(`#${instance.id()} ul`).html(instance.extract_html(instance.items));
+            instance.bind();
+        }
         instance.render = function()
         {
             return `<div id='${instance['_id']}' >

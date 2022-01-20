@@ -11,7 +11,6 @@ define(["jquery",'components/uuid4'], function($)
         instance.show = function() { $(`#${instance.id()}`).fadeIn(10); } 
         instance.bind= function()  { } 
         instance.render = function() { return ''} 
-        
         // Create html from a single element
         instance.extract_single_html = function (variable,do_print=false)
         {
@@ -19,10 +18,6 @@ define(["jquery",'components/uuid4'], function($)
             if (variable != undefined && variable.render != undefined )
             {
                 html = variable.render();
-            }
-            else
-            {
-                if (do_print) alert(8);                
             }
             return html
         }
@@ -33,7 +28,7 @@ define(["jquery",'components/uuid4'], function($)
             html = "";
             if($.isArray(variable))
             {
-                variable.forEach(function(variable)  { html = html + instance.extract_single_html(variable,do_print); });
+                variable.forEach(function(variable)  { html = html  + instance.extract_single_html(variable,do_print); });
             }
             else
             {
@@ -128,6 +123,14 @@ define(["jquery",'components/uuid4'], function($)
             Object.keys(selected_location).forEach(function(item){objects.push(instance.subs_get(original_path+'/'+item))});
             
             return objects;
+        }
+        instance.set = function(key,val)
+        {
+            instance[key] = val;
+        }
+        instance.reload = function()
+        {
+            instance.bind();
         }
         
         

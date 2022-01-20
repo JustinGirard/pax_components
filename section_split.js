@@ -11,6 +11,10 @@ define(["jquery",'components/base','components/content','components/uuid4'], fun
         instance['right_component'] =data['right_instance'];
         instance['section_classes'] =data['section_classes'];
         
+        instance['y_gap'] =instance.extract_field(data['y_gap'],10);
+        instance['x_gap'] =instance.extract_field(data['x_gap'],10);
+        instance['text_classes'] =instance.extract_field(data['text_classes'],'text-base text-gray-500');
+        
         if (instance.section_classes == undefined)
         {
             instance.section_classes = "bg-white";
@@ -24,15 +28,8 @@ define(["jquery",'components/base','components/content','components/uuid4'], fun
         instance.render = function()
         {
             
-            if (instance.left_component == undefined)
-                instance.left_html = "";
-            else
-            {
-                if (instance.left_component.render == undefined)
-                    instance.left_html = instance.left_component;
-                else
-                    instance.left_html = instance.left_component.render();
-            }
+            instance.left_html = instance.extract_html(instance.left_component);
+            instance.right_html = instance.extract_html(instance.right_component);
             
             if (instance.background_image == undefined)
                 instance.background_image_html = "";
@@ -45,29 +42,20 @@ define(["jquery",'components/base','components/content','components/uuid4'], fun
             }
             
             
-            if (instance.right_component == undefined)
-                instance.right_html = "";
-            else
-            {
-                if (instance.right_component.render == undefined)
-                    instance.right_html = instance.right_component;
-                else
-                    instance.right_html = instance.right_component.render();
-            }
             
             //overflow-hidden
             return `<div id ='${instance.id()}' class="py-12 ${instance.section_classes} " style='${instance.background_image_html}'>
                       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div class="mt-10">
+                        <div class="mt-${instance['y_gap']}">
                           <dl class="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
 
                             <div class="relative">
-                              <dd class="mt-2 ml-16 text-base text-gray-500">
+                              <dd class=" ml-${instance['x_gap']} ${instance['text_classes']}">
                                 ${instance.left_html}
                               </dd>
                             </div>
                             <div class="relative">
-                              <dd class="mt-2 ml-16 text-base text-gray-500">
+                              <dd class=" ml-${instance['x_gap']} ${instance['text_classes']}">
                                 ${instance.right_html}
                               </dd>
                             </div>

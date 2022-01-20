@@ -1,4 +1,5 @@
-define(["jquery","doencode","paxdk",'components/alert','components/cookie'], function($,doencode,paxdk,alert_module,cookie) {
+define(["jquery","doencode","paxdk",'components/alert','components/cookie','components/popup','components/form_create_user','components/link'], 
+       function($,doencode,paxdk,alert_module,cookie,popup,form_create_user,link) {
     var module = {
         'dependencies':{
             'alert':alert_module,
@@ -19,7 +20,7 @@ define(["jquery","doencode","paxdk",'components/alert','components/cookie'], fun
 
             <div class="space-y-1">
               <label for="password" class="block text-sm font-medium text-gray-700">
-                Password
+                PasswordSSS
               </label>
               <div class="mt-1">
                 <input id="userpass_password" name="password" type="password" autocomplete="current-password" required class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
@@ -42,6 +43,15 @@ define(["jquery","doencode","paxdk",'components/alert','components/cookie'], fun
         instance['alert_component'] = module.dependencies['alert'].create({'html':"Password Failure"});
         instance['form_html'] = module.dependencies['form_html'];
         instance['logout_html_link'] = module.dependencies['logout_html_link'];
+        
+        instance.f_create_user = popup.create({'controls':form_create_user.create({'appstate':instance['appstate']})});
+        instance['register_link'] = link.create({'label':'register new user',
+                                                 'on_click':function()
+                                                 {
+                                                  instance.f_create_user.show();
+                                                 
+                                                 }});
+        
         instance.head = function()
         {
             return "";
@@ -50,7 +60,7 @@ define(["jquery","doencode","paxdk",'components/alert','components/cookie'], fun
         instance.render = function(control_type)
         { 
             if (control_type == 'login_form')
-                return instance['form_html']+instance['alert_component'].render();
+                return instance['form_html']+instance['alert_component'].render()+ instance['register_link'].render()+instance.f_create_user.render();
             if (control_type == 'logout_link')
                 return instance['logout_html_link'];
             return "INCLUDE CONTROL_TYPE in render()";
@@ -63,40 +73,20 @@ define(["jquery","doencode","paxdk",'components/alert','components/cookie'], fun
         }
         instance.bind = function()
         {
+            instance['register_link'].bind();
+            instance.f_create_user.bind();
             $(document).ready(function()
             {   
                 $('#simple_logout').click(function(event)
                 {
-                    cookie.delete('pax_api_key');
-                    instance.on_logout();
+                    instance['appstate'].user_logout(instance.on_logout);
                 });
                 $('#signin_userpass_form').submit(function(event)
                 {
                     username = $('#userpass_username').val();
                     password = $('#userpass_password').val();
-                    //alert(username+password);
                     event.preventDefault();
-                    
-                    packet = {'credentials':{'username':username,'password':password}}
-                    instance['pq'] = instance['appstate'].get('pq');
-                    instance.pq.query('get_api_key',packet,function(data)
-                    {
-                        console.log("HITTING LOGIN QUERY")
-                        //alert(data['api_key']);
-                        if (data['api_key'] && data['api_key']!='__unauthorized')
-                        {
-                            console.log("GOT LOGIN QUERY")
-                            instance['api_key'] = data['api_key'];
-                            cookie.set('pax_api_key',data['api_key']);
-                            instance.on_login();
-                        }
-                        else
-                        {
-                            console.log("FAIL LOGIN QUERY")
-                            instance['alert_component'].show();
-                        }
-                    });
-                    return false;
+                    instance['appstate'].user_login_userpass(username,password,instance.on_login,instance['alert_component'].show);
                 });
             });        
         }
