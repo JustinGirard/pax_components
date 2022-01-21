@@ -12,6 +12,15 @@ define(["jquery",'components/uuid4'], function($)
         instance.bind= function()  { } 
         instance.render = function() { return ''} 
         // Create html from a single element
+        instance.is_mobile = function()
+        {
+            if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
+              return true;
+            else
+              return false;
+        }
+        
+        
         instance.extract_single_html = function (variable,do_print=false)
         {
             html = variable;

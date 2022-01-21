@@ -19,7 +19,7 @@ define(["jquery",'components/base','components/content','components/uuid4'], fun
         */
         instance['mobile_expand_1'] = 'col-span-4';
         instance['mobile_expand_2'] = 'col-span-4';
-        if (data.appstate != undefined && data.appstate.is_mobile && data.appstate.is_mobile()==true)
+        if (instance.is_mobile()==true)
         {
             if (data.m_cols_1)
                 instance['mobile_expand_1'] = 'col-span-'+data['m_cols_1'];          
@@ -50,6 +50,13 @@ define(["jquery",'components/base','components/content','components/uuid4'], fun
             
             instance.left_html = instance.extract_html(instance.left_component);
             instance.right_html = instance.extract_html(instance.right_component);
+            if (instance.is_mobile())
+            {
+                instance.left_html = instance.left_html.replaceAll("3xl", "6xl");
+                instance.left_html = instance.left_html.replaceAll("text-lg", " text-lg text-3xl ");
+                instance.right_html = instance.right_html.replaceAll("3xl", "6xl");
+                instance.right_html = instance.right_html.replaceAll("text-lg", " text-lg text-3xl ");
+            }
             
             if (instance.background_image == undefined)
                 instance.background_image_html = "";
