@@ -10,6 +10,26 @@ define(["jquery",'components/base','components/content','components/uuid4'], fun
         instance['left_component'] =data['left_instance'];
         instance['right_component'] =data['right_instance'];
         instance['section_classes'] =data['section_classes'];
+        /*
+            <div class="grid grid-rows-3 grid-flow-col gap-4">
+              <div class="row-span-3 ...">01</div>
+              <div class="col-span-2 ...">02</div>
+              <div class="row-span-2 col-span-2 ...">03</div>
+            </div>        
+        */
+        instance['mobile_expand_1'] = 'col-span-4';
+        instance['mobile_expand_2'] = 'col-span-4';
+        if (data.appstate != undefined && data.appstate.is_mobile && data.appstate.is_mobile()==true)
+        {
+            if (data.m_cols_1)
+                instance['mobile_expand_1'] = 'col-span-'+data['m_cols_1'];          
+            if (data.m_cols_2)
+                instance['mobile_expand_2'] = 'col-span-'+data['m_cols_2'];          
+            if (data.m_cols_2 == 0)
+                instance['mobile_expand_2'] = 'hidden'; 
+            if (data.m_cols_1 == 0)
+                instance['mobile_expand_1'] = 'hidden'; 
+        }
         
         instance['y_gap'] =instance.extract_field(data['y_gap'],10);
         instance['x_gap'] =instance.extract_field(data['x_gap'],10);
@@ -47,14 +67,14 @@ define(["jquery",'components/base','components/content','components/uuid4'], fun
             return `<div id ='${instance.id()}' class="py-12 ${instance.section_classes} " style='${instance.background_image_html}'>
                       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div class="mt-${instance['y_gap']}">
-                          <dl class="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
+                          <dl class="space-y-10 md:space-y-0 md:grid md:grid-cols-8 md:gap-x-8 md:gap-y-10">
 
-                            <div class="relative">
+                            <div class="relative  ${instance['mobile_expand_1']} ">
                               <dd class=" ml-${instance['x_gap']} ${instance['text_classes']}">
                                 ${instance.left_html}
                               </dd>
                             </div>
-                            <div class="relative">
+                            <div class="relative  ${instance['mobile_expand_2']} ">
                               <dd class=" ml-${instance['x_gap']} ${instance['text_classes']}">
                                 ${instance.right_html}
                               </dd>
