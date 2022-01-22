@@ -16,7 +16,7 @@ function($,base,link,button, field_container,field_text,object_form)
         instance.form_controls['company'] = field_text.create({'name':'company','title':'Company Name','type':'text'});  
         instance.form_controls['email'] = field_text.create({'name':'email','title':'Business Email','type':'text'});  
         instance.form_controls['phone'] = field_text.create({'name':'phone','title':'Phone Number','type':'text'});  
-        var save =  button.create({'label':'Save',
+        var save =  button.create({'label':'Finish Booking',
                                    'on_click':function()
                                        {
                                            var form_data = {}
@@ -42,7 +42,7 @@ function($,base,link,button, field_container,field_text,object_form)
         Object.values = Object.values || function(o){return Object.keys(o).map(function(k){return o[k]})};
         
         fields = Object.values(instance.form_controls);
-        fields.push(field_container.create({'name':'actions', 'title':'Actions', 'control':save })  );
+        fields.push(field_container.create({'name':'actions', 'title':'', 'control':save })  );
         instance.create_form = object_form.create({'title':"Book A Demo", 
                                             'subtitle':"Someone from the team will get back to you right away!", 
                                             'fields':fields, });

@@ -16,7 +16,7 @@ define(["jquery",'components/base','components/uuid4'], function($,base) {
                     ${instance.field_title}
                   </label>
                   <div class="mt-1">
-                    <input  name="${instance.field_name}" type="${instance.field_type}" id="${instance.id()}" placeholder="${instance.field_name}" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                    <input  name="${instance.field_name}" type="${instance.field_type}" id="${instance.id()}" placeholder="${instance.field_name}" class="shadow-sm block h-8 p-2 w-full border-black rounded-md">
                   </div>
                 </div>
               </div>`;

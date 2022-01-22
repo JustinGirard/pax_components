@@ -27,12 +27,12 @@ define(['require','jquery','components/base','components/button','components/uui
         instance.mobile_classes = "";
         if (instance.is_mobile()==true)
         {
-            instance.mobile_classes = " text-3xl ";
+            instance.mobile_classes = " text-4xl ";
         }
         
         instance.render = function()
         {
-            return  `<button id='${instance.id()}' type="button" class=" ${instance.mobile_classes} relative inline-flex items-center mx-1.5 px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            return  `<button id='${instance.id()}' type="button" class=" ${instance.mobile_classes} relative inline-flex items-center mx-1.5 px-4 py-2 border border-transparent shadow-sm text-sm font-light rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
         <svg class="animate-spin h-5 w-5 mr-3" style="display:none; position:absolute;" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" stroke="#fff">
             <g fill="none" fill-rule="evenodd">
                 <g transform="translate(1 1)" stroke-width="2">
