@@ -63,9 +63,9 @@ define(["jquery",'components/base','components/content','components/uuid4'], fun
             else
             {
                 if (instance.background_image.render == undefined)
-                    instance.background_image_html = `background-image:url("${instance.background_image}");`;
+                    instance.background_image_html = `${instance.background_image}`;
                 else
-                    instance.background_image_html = `background-image:url("${instance.background_image.render()}");`;
+                    instance.background_image_html = `${instance.background_image.render()}`;
             }
             
             
