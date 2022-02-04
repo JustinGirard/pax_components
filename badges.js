@@ -7,8 +7,17 @@ define([],function (require)
     {
         var instance ={};
         instance.badge_html = '';
-        if (args.list == null)
-            instance.badge_list = args.split(",");            
+        if (args.list == null )
+        {
+            if (args.length > 0)
+            {
+                instance.badge_list = args.split(",");            
+            }
+            else
+            {
+                instance.badge_list = [];            
+            }
+        }
         else
             instance.badge_list = args.list;
         
