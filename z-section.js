@@ -1,10 +1,10 @@
-define(["jquery",'zdog'], function($) {
+define(["jquery",'components/base','zdog'], function($,base) {
     var module = {
         'dependencies':{}
     };
     module.create = function(data)
     {
-        var instance ={};
+        var instance =base.create(data);
         instance.head = function()
         {
             return "";
@@ -15,23 +15,7 @@ define(["jquery",'zdog'], function($) {
         {
             
             return ` 
- 
-            <div class="bg-white overflow-hidden shadow rounded-lg space-x-1">
-              <div class="px-4 py-5 sm:p-6">
-                <!-- Content goes here -->
-                    <div class="pb-5 border-b border-gray-200">
-                      <div class="-ml-2 -mt-2 flex flex-wrap items-baseline">
-                        <h3 class="ml-2 mt-2 text-lg leading-6 font-medium text-gray-900">
-                          ZTIME
-                        </h3>
-                        <p class="ml-2 mt-1 text-sm text-gray-500 truncate">in Engineering</p>
-                      </div>
-                    </div>
-                        <p>ZCANVAS</p>
-                        <canvas class="zdog-canvas" width="24" height="24"></canvas>
-              </div>
-            </div>
-
+                <canvas class="zdog-canvas" width="240" height="240" id='${instance.id()}'></canvas>
             `;
         } 
         instance.bind= function()
@@ -42,13 +26,27 @@ define(["jquery",'zdog'], function($) {
             });
 
             // add circle
+            /*
             new Zdog.Ellipse({
               addTo: illo,
               diameter: 80,
               stroke: 20,
               color: '#636',
             });
-
+            */
+            let box = new Zdog.Box({
+              addTo: illo,
+              width: 120,
+              height: 100,
+              depth: 80,
+              rotate: { x: -Zdog.TAU/8, y: Zdog.TAU/8 },
+              stroke: false,
+              color: '#C25', // default face color
+              leftFace: '#EA0',
+              rightFace: '#E62',
+              topFace: '#ED0',
+              bottomFace: '#636',
+            });
             // update & render
             illo.updateRenderGraph();     
             

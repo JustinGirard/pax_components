@@ -1,4 +1,4 @@
-define(["jquery",'components/sidenav_item'], function($,nav_item) {
+define(["jquery",'components/base','components/sidenav_item'], function($,base,nav_item) {
     var module = {
         'dependencies':{
             'page_head':`<link href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.css" rel="stylesheet" />
@@ -6,10 +6,16 @@ define(["jquery",'components/sidenav_item'], function($,nav_item) {
         `}
         
     };
+    /*
+        header_bar  
+        nav_items 
+        bar_items  
+        main_items    
+    */
     module.create = function(data)
     {
-        var instance = function (){};
-        try { instance.nav_items = data.nav_items;} catch(err) { instance.nav_items = null; }
+        var instance = base.create(data);
+        try { instance.nav_items = data.nav_items;} catch(err) { instance.nav_items = null; console.log('no nav items 1');}
         try { instance.bar_items  = data.bar_items;  } catch(err) { instance.bar_items = null}
         try { instance.header_bar  = data.header_bar;  } catch(err) { console.log("NO HEADER BAR");  instance.header_bar = null}
         instance.main_items = data.main_items
@@ -21,23 +27,11 @@ define(["jquery",'components/sidenav_item'], function($,nav_item) {
         {
             return instance['page_head'];
         } 
-        instance.id = function()
-        {
-            return "page_main_bdjff";
-        } 
 
         instance.render = function()
         {
-            if (instance.header_bar == null)
-            {
-                header_html = "NO HEADER";
-            }
-            else
-            {
-                
-                header_html = instance.header_bar.render();
-                
-            }
+            header_html = instance.extract_html(instance.header_bar);
+            
             if (instance.nav_items == null)
             {
                 console.log("NO NAV BAR 2");
@@ -45,10 +39,10 @@ define(["jquery",'components/sidenav_item'], function($,nav_item) {
             }
             else
             {
-                 console.log("HAVE NAV BAR 2");
+                instance.nav_items_html = instance.extract_html(instance.nav_items);
                 sidebar_html =`<nav aria-label="Sidebar" class="hidden md:block md:flex-shrink-0 md:bg-gray-800 md:overflow-y-auto">
                   <div class="relative w-20 flex flex-col p-3 space-y-3">
-                  ${instance.nav_items.render()}
+                  ${instance.nav_items_html}
                   </div>
                 </nav>`;
             }
@@ -60,12 +54,12 @@ define(["jquery",'components/sidenav_item'], function($,nav_item) {
             {
                 bar_html =`<aside class="hidden lg:block lg:flex-shrink-0 lg:order-first">
                 <div class="h-full relative flex flex-col w-96 border-r border-gray-200 bg-gray-100 space-y-3 p-3">
-                  ${instance.bar_items.render()}
+                  ${instance.extract_html(instance.bar_items)}
                 </div>
               </aside>`;
             }
             
-            page_html = `<div id='page_main_bdjff' style='display:none' class="h-screen overflowDEAD-hiddenDEAD bg-gray-100 flex flex-col">
+            page_html = `<div id='${instance.id()}' style='display:none' class="h-screen overflowDEAD-hiddenDEAD bg-gray-100 flex flex-col">
   <!-- Top nav-->
     ${header_html}
 
@@ -80,7 +74,7 @@ define(["jquery",'components/sidenav_item'], function($,nav_item) {
       <section aria-labelledby="primary-heading" class="min-w-0 flex-1 h-full flex flex-col overflowDEAD-hiddenDEAD lg:order-last p-3 space-y-3 ">
         <h1 id="primary-heading" class="sr-only">Home</h1>
         <!-- Your content -->
-      ${instance.main_items.render()}
+      ${instance.extract_html(instance.main_items)}
       </section>
 
       <!-- Secondary column (hidden on smaller screens) -->
@@ -92,12 +86,16 @@ define(["jquery",'components/sidenav_item'], function($,nav_item) {
             
             return page_html;
         }
+
         instance.bind = function()
         {
-            if (instance.bar_items != null) {instance.bar_items.bind()} 
-            if (instance.nav_items != null) {instance.nav_items.bind()} 
-            if (instance.main_items != null) {instance.main_items.bind()} 
+            instance.recursive_bind(instance.bar_items);
+            instance.recursive_bind(instance.main_items);
+            instance.recursive_bind(instance.nav_items);
         }
+        instance.hide = function() { $(`#${instance.id()}`).fadeOut(10);   } 
+        instance.show = function() { $(`#${instance.id()}`).fadeIn(10); } 
+        
         return instance;
     } 
     return module;
