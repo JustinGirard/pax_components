@@ -5,10 +5,10 @@ function($,base,link)
     module.create = function(data)
     {
         var instance =base.create(data);
-        
-        
-        
-        instance.close_link = link.create({'on_click':function (event){instance.hide(); event.preventDefault();},
+        instance.on_close = function (){};
+        if (data.on_close)
+            instance.on_close = data.on_close;
+        instance.close_link = link.create({'on_click':function (event){instance.on_close();instance.hide(); event.preventDefault();},
                                            'label':`<div class=" sm:block absolute top-0 right-0 pt-4 pr-4">
               <button type="button" class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" @click="open = false">
                 <span class="sr-only">Close</span>
@@ -23,13 +23,12 @@ function($,base,link)
         
         instance.bind = function (){
             instance.close_link.bind();
-            instance.controls.bind();
+            instance.recursive_bind(instance.controls);
         }
         instance.overlay_classes =`flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0`;
         if (instance.is_mobile())
         {
             instance.overlay_classes =`flex  justify-center min-h-screen pt-4 px-4 pb-20 text-center`;
-        
         }
         else
         {
@@ -44,7 +43,7 @@ function($,base,link)
     <!-- This element is to trick the browser into centering the modal contents. -->
     <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
-    <div class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle  sm:p-6">
+    <div class="inline-block popup-style align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle  sm:p-6">
     ${instance.extract_html(instance.close_link)}
     ${instance.extract_html(instance.controls)}
     

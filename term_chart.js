@@ -63,6 +63,19 @@ define(['require',"jquery","paxdk",'components/cookie','components/application_s
                 x_vals = ['x1'];
                 x_list = [];
                 y_list = [];
+                if((typeof data) =="string")
+                    data = JSON.parse(data)
+                console.log(data);
+                console.log(typeof data);
+                if (data.constructor == Object) 
+                { // if you are a dict (you should not be) see if you have an error
+                    if(data.error)
+                    {
+                        alert(data.error);
+                        instance.chart.load({columns: [y_vals,x_vals]});    
+                        return;
+                    }
+                }
                 data.forEach(function(element)
                 {
                     x_vals.push(element['DateTime']);
@@ -71,8 +84,6 @@ define(['require',"jquery","paxdk",'components/cookie','components/application_s
                 instance.chart.load({columns: [y_vals,x_vals]});    
             }                
         }
-        
-        
         return instance;
     } 
     return module;
