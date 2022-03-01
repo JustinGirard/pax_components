@@ -5,6 +5,9 @@ function($,base,link)
     module.create = function(data)
     {
         var instance =base.create(data);
+        
+        
+        
         instance.close_link = link.create({'on_click':function (event){instance.hide(); event.preventDefault();},
                                            'label':`<div class=" sm:block absolute top-0 right-0 pt-4 pr-4">
               <button type="button" class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" @click="open = false">
@@ -22,11 +25,20 @@ function($,base,link)
             instance.close_link.bind();
             instance.controls.bind();
         }
+        instance.overlay_classes =`flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0`;
+        if (instance.is_mobile())
+        {
+            instance.overlay_classes =`flex  justify-center min-h-screen pt-4 px-4 pb-20 text-center`;
+        
+        }
+        else
+        {
+        }
         
         instance.render = function ()
         {
             return `<div id='${instance.id()}' style='display:none;' class="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-  <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+  <div class="${instance.overlay_classes}">
     <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
 
     <!-- This element is to trick the browser into centering the modal contents. -->

@@ -14,10 +14,19 @@ define(["jquery",'components/uuid4'], function($)
         // Create html from a single element
         instance.is_mobile = function()
         {
+            var val = true;
             if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
-              return true;
+                val = true;
             else
-              return false;
+              val = false;
+            /*
+            var w = window.screen.width; 
+            var h = window.screen.height;
+            if (h/w > 0.5)
+            {
+                val = true;
+            }*/
+            return val; 
         }
         
         
