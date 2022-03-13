@@ -23,7 +23,7 @@ define(["jquery",'components/base','components/uuid4'], function($,base) {
         } 
         instance.bind = function()
         {
-            instance.field_control.bind();
+            instance.recursive_bind(instance.field_control);
         }
         return instance;
     } 
