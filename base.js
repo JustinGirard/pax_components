@@ -138,8 +138,11 @@ define(["jquery",'components/uuid4'], function($)
             if (Object.keys(selected_location)==undefined || (Object.keys(selected_location).length==0))
                 return undefined
             var objects = [];
-            Object.keys(selected_location).forEach(function(item){objects.push(instance.subs_get(original_path+'/'+item))});
-            
+            Object.keys(selected_location).forEach(function(item)
+            {
+                found_item = instance.subs_get(original_path+'/'+item);
+                if (found_item) objects.push(found_item);
+            });
             return objects;
         }
         instance.set = function(key,val)

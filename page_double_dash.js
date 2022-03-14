@@ -6,12 +6,6 @@ define(["jquery",'components/base','components/sidenav_item'], function($,base,n
         `}
         
     };
-    /*
-        header_bar  
-        nav_items 
-        bar_items  
-        main_items    
-    */
     module.create = function(data)
     {
         var instance = base.create(data);
