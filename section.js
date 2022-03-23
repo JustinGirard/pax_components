@@ -42,7 +42,6 @@ define(["jquery",'components/content','components/uuid4'], function($,content) {
                 if (instance.upper_component.render == undefined)
                 {
                     instance.upper_html = instance.upper_component;
-                    
                 }
                 else
                 {
