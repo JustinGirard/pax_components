@@ -42,7 +42,6 @@ define(["jquery",'components/content','components/uuid4'], function($,content) {
                 if (instance.upper_component.render == undefined)
                 {
                     instance.upper_html = instance.upper_component;
-                    
                 }
                 else
                 {
@@ -77,10 +76,10 @@ define(["jquery",'components/content','components/uuid4'], function($,content) {
             //overflow-hidden 
             // <div class="-ml-4 mt-2 flex flex-wrap sm:flex-nowrap">
             return ` 
-            <div id='${instance['_id']}' class=" ${instance.section_classes}  shadow rounded-lg space-x-1">
-              <div class="px-4 py-5 sm:p-6">
-                        <div class="bg-white   border-b border-gray-200 ">
-                          <div class="flex flex-wrap sm:flex-nowrap">
+            <div id='${instance['_id']}' class=" ${instance.section_classes}  shadow rounded-lg space-x-1 section-container">
+              <div class="px-4 py-5 sm:p-6 travis">
+                        <div class="bg-white  py-5 border-gray-200 ">
+                          <div class="-mt-2 flex items-center justify-between flex-wrap sm:flex-nowrap">
                             <div class=" ">
                               <h3 class="text-lg leading-6 font-medium text-gray-900">
                                 ${instance.title_html}

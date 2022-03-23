@@ -52,9 +52,9 @@ define(["jquery",'components/button','components/uuid4'], function($,button) {
             
             //overflow-hidden
             return `
-<div id="${instance.id()}" class="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+<div id="${instance.id()}" class="fixed z-10 inset-0 overflow-y-auto show-me-always" aria-labelledby="modal-title" role="dialog" aria-modal="true">
     <div class="bg-white shadow sm:rounded-lg">
-      <div class="px-4 py-5 sm:p-6">
+      <div class="px-4 py-7 sm:p-7">
         <h3 class="text-lg leading-6 font-medium text-gray-900">
           Download
         </h3>

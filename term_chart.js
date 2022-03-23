@@ -18,7 +18,6 @@ define(['require',"jquery","paxdk",'components/cookie','components/application_s
         } 
         instance.bind = function()
         {
-            console.log("BINDING THE CHART!!");
             instance.pq = new Paxdk(url_version_in='stage');
             instance.api_key = cookie.get('pax_api_key');
             instance.mid = 'live_binance_jg'
@@ -53,26 +52,19 @@ define(['require',"jquery","paxdk",'components/cookie','components/application_s
                   show: false
                 }    
             });
-            
-            //instance.count_summary();            
         }
         
         instance.show = function ()
         {
-            console.log("SHOWING DATA");
             data = appstate.get('detail_data_bars');
             if (data != undefined)
             {
-                console.log("SHOWING DATA3");
-                console.log(data);
                 y_vals = ['data1'];
                 x_vals = ['x1'];
                 x_list = [];
                 y_list = [];
                 data.forEach(function(element)
                 {
-                    console.log("Graph Element");
-                    console.log(element);
                     x_vals.push(element['DateTime']);
                     y_vals.push(element['CloseValue']);
                 });

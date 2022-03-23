@@ -1,10 +1,10 @@
-define(["jquery",'components/link','components/uuid4'], function($,link) {
+define(["jquery",'components/base','components/link','components/uuid4'], function($,base,link) {
     var module = {
         'dependencies':{}
     };
     module.create = function(data)
     {
-        var instance ={};
+        var instance =base.create(data);
         instance['left_items'] =data['left_items']; // pass as mem_list
         /* instance['left_items'] = EXAMPLE:
           <a href="#" class="text-base font-medium text-white hover:text-gray-300">Product</a>
@@ -24,6 +24,12 @@ define(["jquery",'components/link','components/uuid4'], function($,link) {
         */
         
         instance['logo_item'] =data['logo_item']; // pass as mem_list
+        //instance['logo'] = instance.extract_field(data['logo'],`<img class="h-8 w-auto" src="assets/decelium_logo_small.png" alt="">`);
+        instance['logo'] = undefined;
+        if (data['logo'])
+        {
+            instance['logo'] = instance.extract_field(data['logo'],``);
+        }
         instance['_id'] ='header_'+uuid4();
         instance['_id_mobile'] ='header_'+uuid4();
         
@@ -39,7 +45,7 @@ define(["jquery",'components/link','components/uuid4'], function($,link) {
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                               </svg>`, 'on_click':function(){$(`#${instance['_id_mobile']}`).fadeIn(100);}});
 
-        instance.mobile_hide_menu = `<button type="button" class="bg-gray-800 rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-600">
+        instance.mobile_hide_menu = `<button type="button" class=" rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-600">
                             <span class="sr-only">Close menu</span>
                             <!-- Heroicon name: outline/x -->
                             <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -47,7 +53,7 @@ define(["jquery",'components/link','components/uuid4'], function($,link) {
                             </svg>CLOSE2
                           </button>`;
         
-           instance.mobile_show_menu = `<button type="button" class="bg-gray-900 rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:bg-gray-800 focus:outline-none focus:ring-2 focus-ring-inset focus:ring-white" aria-expanded="false">
+           instance.mobile_show_menu = `<button type="button" class=" rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:bg-gray-800 focus:outline-none focus:ring-2 focus-ring-inset focus:ring-white" aria-expanded="false">
                               <span class="sr-only">Open main menu</span>
                               <!-- Heroicon name: outline/menu -->
                               <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -96,63 +102,52 @@ define(["jquery",'components/link','components/uuid4'], function($,link) {
         
         instance.render = function()
         { 
-            //instance.extract_html_menu(instance.left_items);
-
-            instance.right_items_html = "Hey. ERROR IN header_navlist.right_items";
-            instance.right_items_html = instance.extract_html_menu(instance.right_items);
+            var logo_html_top = "";
+            if (instance.logo)
+               logo_html_top = `<a href="#" class ='md:mr-10'  >${instance.logo}</a>`;  
+            else
+                logo_html_top = '';
             
-            
+            var logo_html_bottom = "";
+            if (instance.logo)
+               logo_html_bottom = `<div >${instance.logo}</div>`;  
+            else
+                logo_html_bottom = '';
             //class="flex-shrink-0 relative h-16 bg-white flex items-center"
             return ` 
                 <header class="relative"  id='${instance['_id']}'>
-                  <div class="bg-gray-900 pt-6">
-                    <nav class="relative max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6" aria-label="Global">
+                  <div class=" pt-6">
+                    <nav class="relative mx-auto flex items-center justify-between px-4 pb-5 sm:px-6" aria-label="Global">
                       <div class="flex items-center flex-1">
                         <div class="flex items-center justify-between w-full md:w-auto">
-                          <a href="#">
-                            <span class="sr-only">Workflow</span>
-                            <img class="h-8 w-auto sm:h-10" src="assets/decelium_logo_small.png" alt="">
-                          </a>
+                            ${logo_html_top}
                           <div class="-mr-2 flex items-center md:hidden">
                             ${instance.mobile_show_menu}
                           </div>
                         </div>
-                        <div class="hidden space-x-8 md:flex md:ml-10">
-                         ${instance.extract_html_menu(instance.left_items)}
+                        <div class="hidden space-x-8 md:flex ">
+                         ${instance.extract_html(instance.left_items)}
                         </div>
                       </div>
                       <div class="hidden md:flex md:items-center md:space-x-6">
-                         ${instance.extract_html_menu(instance.right_items)}
+                         ${instance.extract_html(instance.right_items)}
                       </div>
                     </nav>
                   </div>
 
-                  <!--
-                    Mobile menu, show/hide based on menu open state.
-
-                    Entering: "duration-150 ease-out"
-                      From: "opacity-0 scale-95"
-                      To: "opacity-100 scale-100"
-                    Leaving: "duration-100 ease-in"
-                      From: "opacity-100 scale-100"
-                      To: "opacity-0 scale-95"
-                  -->
                   <div class="absolute top-0 inset-x-0 p-2 transition transform origin-top md:hidden" style='display:none;z-index: 11;' id='${instance['_id_mobile']}'>
                     <div class="rounded-lg shadow-md bg-gray-800 ring-1 ring-black ring-opacity-5 overflow-hidden">
                       <div class="px-5 pt-4 flex items-center justify-between">
-                        <div>
-                          <img class="h-8 w-auto" src="assets/decelium_logo_small.png" alt="">
-                        </div>
                         <div class="-mr-2">
                             ${instance.mobile_hide_menu}
                         </div>
                       </div>
                       <div class="pt-5 pb-6">
                         <div class="px-2 space-y-1">
-                         ${instance.extract_html_menu(instance.left_items,`<div class="mt-6 px-5 text-center">`,`</div>`)}
+                         ${instance.extract_html(instance.left_items,`<div class="mt-6 px-5 text-center">`,`</div>`)}
                         </div>
                         <div class="px-2 space-y-1">
-                         ${instance.extract_html_menu(instance.right_items,`<div class="mt-6 px-5 text-center">`,`</div>`)}
+                         ${instance.extract_html(instance.right_items,`<div class="mt-6 px-5 text-center">`,`</div>`)}
                         </div>
                       </div>
                     </div>

@@ -26,7 +26,7 @@ define(['require',"jquery"], function(require,$) {
             col_header_html = "";
             Object.keys(instance.def).forEach(function(key){
                 col = instance.def[key];
-                col_header_html = col_header_html + `<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                col_header_html = col_header_html + `<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-black uppercase tracking-wider">
                 ${col['name']}
               </th>`;
             });

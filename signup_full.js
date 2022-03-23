@@ -1,4 +1,5 @@
-define(["jquery","doencode","paxdk",'components/alert','components/cookie'], function($,doencode,paxdk,alert_module,cookie) {
+define(["jquery","doencode","paxdk",'components/alert','components/cookie','components/popup','components/form_create_user','components/link'], 
+       function($,doencode,paxdk,alert_module,cookie,popup,form_create_user,link) {
     var module = {
         'dependencies':{
             'alert':alert_module,
@@ -24,6 +25,10 @@ define(["jquery","doencode","paxdk",'components/alert','components/cookie'], fun
             </div>
           </form>
         </div>`,
+            
+            
+            
+            
         }
     };
     module.create = function(data)
@@ -35,6 +40,10 @@ define(["jquery","doencode","paxdk",'components/alert','components/cookie'], fun
         instance['alert_component'] = module.dependencies['alert'].create({'html':"Password Failure"});
         instance['form_html'] = module.dependencies['form_html'];
         instance['logout_html_link'] = module.dependencies['logout_html_link'];
+        
+        instance.f_create_user = popup.create({'controls':form_create_user.create({})});
+        instance['register_link'] = link.create({'label':'register new user','on_click':function(){alert('register')}});
+
         instance.head = function()
         {
             return "";
@@ -43,7 +52,7 @@ define(["jquery","doencode","paxdk",'components/alert','components/cookie'], fun
         instance.render = function(control_type)
         { 
             if (control_type == 'login_form')
-                return instance['form_html']+instance['alert_component'].render();
+                return instance['form_html']+instance['alert_component'].render()+ instance['register_link'].render();
             if (control_type == 'logout_link')
                 return instance['logout_html_link'];
             return "INCLUDE CONTROL_TYPE in render()";
@@ -58,6 +67,7 @@ define(["jquery","doencode","paxdk",'components/alert','components/cookie'], fun
         {
             $(document).ready(function()
             {   
+                instance['register_link'].bind();
                 
                 $('#simple_logout').click(function(event)
                 {

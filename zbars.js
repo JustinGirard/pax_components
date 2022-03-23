@@ -59,7 +59,7 @@ define(["jquery",'zdog','components/uuid4'], function($) {
                   stroke: 1,
                   fill:true,
                   translate: { x: offset,y:-(xoffset+15)/2.0+ydown },                    
-                  color: '#AAA',
+                  color: '#2B431C',
                 });
                  offset = offset+ 13;
                 

@@ -43,7 +43,6 @@ define(["jquery","components/content"], function($,content_module) {
         instance['form_html'] = form_instance
         instance['page_head'] = module.dependencies['page_head'];
         
-        
         instance.head = function()
         {
             return instance['page_head'];
