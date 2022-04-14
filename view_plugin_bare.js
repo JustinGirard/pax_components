@@ -5,21 +5,21 @@ define(["jquery","components/base","components/content","components/list_detaile
                  field_text,field_container,button,link,header
                 )
 {
-    var page_layered = {
+    var page_bare = {
         'dependencies':{
             'page_head':`<link href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.css" rel="stylesheet" />
         <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
         `}
         
     };
-    page_layered.create = function(data)
+    page_bare.create = function(data)
     {
         var instance = base.create(data);
         try { instance.nav_items = data.nav_items;} catch(err) { instance.nav_items = null; console.log('no nav items 1');}
         try { instance.bar_items  = data.bar_items;  } catch(err) { instance.bar_items = null}
         try { instance.header_bar  = data.header_bar;  } catch(err) { console.log("NO HEADER BAR");  instance.header_bar = null}
         instance.main_items = data.main_items
-        instance['page_head'] = page_layered.dependencies['page_head'];
+        instance['page_head'] = page_bare.dependencies['page_head'];
         instance['page_inner_list'] =[];
 
         instance.head = function()
@@ -32,22 +32,22 @@ define(["jquery","components/base","components/content","components/list_detaile
             instance.header_instance = {} 
             header_html ="";
             //alert(JSON.stringify(instance.nav_items));
-            if (instance.nav_items)
+            /*if (instance.nav_items)
             {
                 instance.header_instance = header.create({'left_items':instance.nav_items,
-                                                    'logo':'<img class="h-8 w-auto" src="assets/pax_logo_small.png" alt="">',
+                                                    'logo':'ABC<img class="h-8 w-auto" src="assets/pax_logo_small.png" alt="">',
                                                     'right_items':[],}); //instance.sign_in
                 header_html = instance.header_instance.render();
-            }
+            }*/
             
             sun_header_html = "";
-            if (instance.bar_items)
+            /*if (instance.bar_items)
             {
                 instance.bar_instance = header.create({'left_items':instance.bar_items,
                                                     'logo':'<img class="h-8 w-auto" src="assets/pax_logo_small.png" alt="">',
                                                     'right_items':[],}); //instance.sign_in
                 sun_header_html = instance.extract_html(instance.bar_instance);
-            }
+            }*/
             
             page_html = `<div class="min-h-screen" id="${instance.id()}" style='display:none;' >
     ${header_html}
@@ -73,7 +73,7 @@ define(["jquery","components/base","components/content","components/list_detaile
         
         return instance;
     } 
-    var dashboard =  page_layered;
+    var dashboard =  page_bare;
     
     /////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////
@@ -135,12 +135,10 @@ define(["jquery","components/base","components/content","components/list_detaile
             var target_index = 0;
             instance.plugins.forEach(function(plugin)
             {
-                if (instance.plugins[index] && instance.plugins[index].hide) 
-                    if (index !=  target_index) instance.plugins[index].hide();
-                        target_index = target_index + 1;
+                if (index !=  target_index) instance.plugins[index].hide();
+                target_index = target_index + 1;
             });
-            if (instance.plugins[index] && instance.plugins[index].show) 
-                instance.plugins[index].show(); 
+            instance.plugins[index].show(); 
         }
         
         instance.show = function() 

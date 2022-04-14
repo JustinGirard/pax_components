@@ -68,6 +68,31 @@ define(["jquery",'components/base','components/link','components/uuid4'], functi
         {
             return "";
         } 
+        instance.refresh = function()
+        {
+            // alert('e');
+            // $(element).is(":visible");
+            // $(element).is(":hidden");  
+            
+            var hidden = true;
+            
+            [$(`#${instance['_id']}_left_1`).children(), 
+             $(`#${instance['_id']}_right_1`).children()].forEach( list =>
+            {
+                list.each((ind,item)=>{
+                   //alert(hidden);
+                   //alert(item.is_visible());
+                   //console.log($(item).css("display"));
+                    //alert(item.css("display"));
+                   hidden = hidden && ($(item).css("display")=='none');  
+                })
+            });
+            if (hidden) 
+                instance.hide();
+            else 
+                instance.show();
+            
+        } 
         
         instance.id = function()
         {
@@ -107,7 +132,7 @@ define(["jquery",'components/base','components/link','components/uuid4'], functi
                logo_html_top = `<a href="#" class ='md:mr-10'  >${instance.logo}</a>`;  
             else
                 logo_html_top = '';
-            
+            // style="border: 5px solid red;" TODO -- use this for debuggning.
             var logo_html_bottom = "";
             if (instance.logo)
                logo_html_bottom = `<div >${instance.logo}</div>`;  
@@ -125,11 +150,11 @@ define(["jquery",'components/base','components/link','components/uuid4'], functi
                             ${instance.mobile_show_menu}
                           </div>
                         </div>
-                        <div class="hidden space-x-8 md:flex ">
+                        <div id='${instance['_id']}_left_1' class="hidden space-x-8 md:flex " >
                          ${instance.extract_html(instance.left_items)}
                         </div>
                       </div>
-                      <div class="hidden md:flex md:items-center md:space-x-6">
+                      <div id='${instance['_id']}_right_1' class="hidden md:flex md:items-center md:space-x-6" >
                          ${instance.extract_html(instance.right_items)}
                       </div>
                     </nav>

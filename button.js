@@ -49,7 +49,6 @@ define(['require','jquery','components/base','components/button','components/uui
                 </g>
             </g>
         </svg>          
-
             <p class='label' >${instance['label']}</p>
           </button>`;
         } 
@@ -63,7 +62,8 @@ define(['require','jquery','components/base','components/button','components/uui
         }
         instance.bind = function()
         {
-            $("div #"+instance.id()).click(instance['click_decorate']);
+            
+            $("#"+instance.id()).click(instance['click_decorate']);
         } 
         return instance
     } 

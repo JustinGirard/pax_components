@@ -35,7 +35,7 @@ define(["jquery","components/base","components/content","components/page_double_
             var comp =[{'instance':instance.sect,'location':'welcome_full'},]; 
             return {'main':main,'sub':sub,'components':comp,};
         }
-
+        //// BOILERPLATE BELOW :: TODO - EXTRACT INTO BASE CLASS!
         instance.show = function() 
         {
             if (instance.default_view)  instance.default_view.show();

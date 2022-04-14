@@ -7,7 +7,8 @@ define(["jquery",'components/base','components/uuid4'], function($,base) {
         instance.field_title = instance.extract_field(data['title'],"'title' field");
         instance.field_name = instance.extract_field(data['name'],"'name' field");
         instance.field_type = instance.extract_field(data['name'],"text");
-        instance.field_content = instance.extract_field(data['content'],"");
+        instance.field_content = instance.extract_field(data['content'],"'content' field");
+        
         instance.render = function()
         {
             return `
@@ -17,7 +18,7 @@ define(["jquery",'components/base','components/uuid4'], function($,base) {
                     ${instance.field_title}
                   </label>
                   <div class="mt-1">
-                    <input  name="${instance.field_name}" type="${instance.field_type}" id="${instance.id()}" placeholder="${instance.field_name}" class="shadow-sm block h-8 p-2 w-full border-black rounded-md" value="${instance.field_content}">
+                    <label  name="${instance.field_name}" id="${instance.id()}" placeholder="${instance.field_name}" class="shadow-sm block h-8 p-2 w-full border-black rounded-md">${instance.field_content}</label>
                   </div>
                 </div>
               </div>`;

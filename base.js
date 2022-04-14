@@ -4,14 +4,30 @@ define(["jquery",'components/uuid4'], function($)
     module.create = function(data)
     {
         var instance ={};
+        instance.controls = data.controls;
         instance['_id'] ='obj_'+uuid4();
         instance.head = function() { return ""; } 
         instance.id = function()   { return instance['_id'];}
-        instance.hide = function() { $(`#${instance.id()}`).fadeOut(10); } 
-        instance.show = function() { $(`#${instance.id()}`).fadeIn(10); } 
-        instance.bind= function()  { } 
+        instance.hide = () => { 
+                                    $(`#${instance.id()}`).fadeOut(10); 
+                                    if (instance.controls != undefined)
+                                    {
+                                        instance.recursive_do(instance.controls,'hide');
+                                    }
+                                   } 
+        instance.show = function() { 
+                                    $(`#${instance.id()}`).fadeIn(10); 
+                                    if (instance.controls != undefined)
+                                    {
+                                        instance.recursive_do(instance.controls,'show');
+                                    }
+                                   } 
+        
+        
+        instance.bind= function()  { if (instance.controls){instance.recursive_do(instance.controls,'bind');}} 
         instance.render = function() { return ''} 
         // Create html from a single element
+        
         instance.is_mobile = function()
         {
             if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
@@ -32,12 +48,12 @@ define(["jquery",'components/uuid4'], function($)
         }
         
         // extract html from single items, and lists
-        instance.extract_html = function (variable,do_print=false)
+        instance.extract_html = function (variable,do_print=false,recur=1)
         {
             html = "";
             if($.isArray(variable))
             {
-                variable.forEach(function(variable)  { html = html  + instance.extract_single_html(variable,do_print); });
+                variable.forEach(function(variable_inner)  { html = html  +instance.extract_single_html(variable_inner,do_print); });
             }
             else
             {
@@ -63,6 +79,24 @@ define(["jquery",'components/uuid4'], function($)
                     obj.bind();
             } 
         }        
+        instance.recursive_do = function(obj,func_name)
+        {
+            if (obj != null) 
+            {
+                if($.isArray(obj))
+                {
+                     obj.forEach(function(item)
+                     {
+                        if (item[func_name] != null)
+                            item[func_name]();
+                     });
+                }
+                else if (obj[func_name] != null)
+                    obj[func_name]();
+            } 
+        }        
+        
+        
         instance.extract_field = function (variable,default_value)
         {
             if (variable == undefined)

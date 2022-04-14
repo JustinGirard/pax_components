@@ -7,10 +7,10 @@ define(["jquery",'components/content','components/uuid4'], function($,content) {
         var instance ={};
         instance['_id'] ='section_'+uuid4();
         
-        instance['inner_component'] =data['content_instance'];
-        instance['upper_component'] =data['header_instance'];
+        instance['inner_component'] =data['content'];
+        instance['upper_component'] =data['header'];
         instance['title'] =data['title'];
-        instance['section_classes'] =data['section_classes'];
+        instance['section_classes'] =data['section'];
         
         if (instance.section_classes == undefined)
         {
