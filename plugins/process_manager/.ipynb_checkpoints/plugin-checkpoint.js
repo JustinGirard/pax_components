@@ -134,7 +134,7 @@ define(["jquery","components/base","components/content","components/list_detaile
                 let item = data_list[key];
                 fields.push(field.create({'title':key,
                                                 'type':'text',
-                                                'content':item}));
+                                                'content':JSON.stringify(item)}));
             
             });
             
@@ -204,8 +204,10 @@ define(["jquery","components/base","components/content","components/list_detaile
             var proq_q = instance.process_component.process_query;
             if (instance.appstate.get_api_key())
             {
+                proq_q['api_key'] = instance.appstate.get_api_key();
                 instance.appstate.get('pq').query('find_processes',proq_q,function(process_data) 
                 {
+                    console.log({process_data});
                     var rows = [];
                     var selected_keys =['experiment_id', 'last_contact', 'name','status','auto_restart',]; 
                     instance.table_defs = {}; // TODO -- default DEF
@@ -258,7 +260,10 @@ define(["jquery","components/base","components/content","components/list_detaile
                     }); 
                     
                     instance.table_instance = table.create({'dataframe':rows,'def':instance.table_defs}); // TODO -- default DEF
-                    let padded = page_padding.create({'content':instance.table_instance});
+                    let padded = page_padding.create({
+                        'content': [`<h1 class='text-3xl text-white'>Processes</h1>`,
+                                    instance.table_instance]
+                        });
                     // var process_component_list = list_detaied.create({'items':procs});
                     $(`#${instance.process_component.id()}`).html(padded.render());
                     instance.table_instance.bind();
@@ -269,10 +274,11 @@ define(["jquery","components/base","components/content","components/list_detaile
         
         instance.process_component.render = function () 
         {
+            let padded = page_padding.create({'content':`<h3 class='text-3xl text-white' > Processes (loading...)</h3>`});
 
             var html = `
             <div id='${instance.process_component.id()}' > 
-                <h3> Processes (loading...)</h3>
+                ${padded.render()}
             </div>
             `;
             return html;
@@ -308,31 +314,6 @@ define(["jquery","components/base","components/content","components/list_detaile
                       ]; 
             return {'main':main,'sub':sub,'components':comp,};
         }
-        //// BOILERPLATE BELOW :: TODO -- EXTRACT INTO A BASE CLASS
-        /*
-        instance.show = function() 
-        {
-            if (instance.default_view)  instance.default_view.show();
-            instance.current.show();
-        }
-        
-        instance.hide = function() 
-        {
-            if (instance.default_view)  instance.default_view.hide();
-            instance.current.hide();
-        }
-        
-        instance.render = function()
-        {
-            instance.default_view = page_layered.create({ 'plugins':[module.create(data)],  'appstate':instance.appstate});            
-            return instance.default_view.render();
-        } 
-        
-        instance.bind = function()
-        {
-            if (instance.default_view)  instance.default_view.bind();
-        }
-        */
         return instance;
     } 
     return module;
