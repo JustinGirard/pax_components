@@ -42,24 +42,22 @@ define(["jquery","components/base","components/content","components/page_double_
             var comp =[{'instance':instance.frm,'location':'edit_user_2'},]; 
             return {'main':main,'sub':sub,'components':comp,};
         }
-
-        instance.bind = function() 
-        {
         
-        } 
-        instance.hide = function() {} 
-        instance.show = function() 
-        {
-        } 
-        instance.render = function()
-        {
+        //// BOILERPLATE BELOW -- TODO THESE METHODS SHOULD PULL FROM A BASE CLASS 
+        //instance.hide = function() {} 
+        //instance.show = function() 
+       // {
+        //} 
+        //instance.render = function()
+        //{
             
-            return "You can not render a plugin directly. You need to call .as_plugin, which will return all of the sub items that make up this item.";
-        } 
-        instance.bind = function()
-        {
-        }
-        return instance;
+        //    return "You can not render a plugin directly. You need to call .as_plugin, which will return all of the sub items that make up this item.";
+        //} 
+        //instance.bind = function()
+        //{
+        //}
+        //return instance;
+        //
     } 
     return module;
 });
