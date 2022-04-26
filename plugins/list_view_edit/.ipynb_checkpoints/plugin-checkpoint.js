@@ -1,5 +1,5 @@
 define(["jquery","components/base", 'components/button','components/link','components/table','components/content',
-  "components/object_field_label","components/object_field_text","components/object_form", 'components/section','components/page_padding',   'components/tabs',      
+  "components/object_field_label","components/object_field_text","components/object_form", 'components/section','components/page_padding',   'components/tabs',
 ], 
 function($,base,button,link,table,content,
         field_label,field_text,object_form,section,page_padding,tabs) {
@@ -119,13 +119,13 @@ function($,base,button,link,table,content,
 
         instance.as_plugin = function ()
         {
-            var main =[{'instance':instance.main, 'location':'main_processes'}]; 
+            var main =[{'instance':instance.main, 'location':instance.id()+'main_processes'}]; 
             //var sub =[{'instance':instance.welcome,'location':'welcome3'}, {'instance':instance.demo,'location':'demo3'}]; 
             var sub =[];
             var comp =[
-                        {'instance':instance.process_component,'location':'processes_view'},
-                        {'instance':instance.view_component,'location':'processes_view_detail'},
-                        {'instance':instance.edit_component,'location':'processes_edit_detail'},
+                        {'instance':instance.process_component,'location':instance.id()+'processes_view'},
+                        {'instance':instance.view_component,'location':instance.id()+'processes_view_detail'},
+                        {'instance':instance.edit_component,'location':instance.id()+'processes_edit_detail'},
                       ]; 
             return {'main':main,'sub':sub,'components':comp,};
         }
