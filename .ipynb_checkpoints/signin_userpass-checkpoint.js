@@ -1,6 +1,6 @@
-define(["jquery","doencode","paxdk",'components/alert','components/base','components/cookie','components/popup','components/form_create_user','components/link'], 
+define(["jquery","assets/doencode","assets/paxdk",'components/alert','components/base','components/cookie','components/popup','components/form_create_user','components/link'], 
        function($,doencode,paxdk,alert_module,base,cookie,popup,form_create_user,link) {
-    var module = {
+    var module = { 
         'dependencies':{
             'alert':alert_module,
             'logout_html_link':`<a href="#"  id='simple_logout' class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" >
