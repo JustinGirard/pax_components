@@ -5,7 +5,10 @@ define(["jquery","components/base","components/content","components/list_detaile
         "components/plugins/process_manager/relaunch_button",          
         "components/plugins/process_manager/process_setting_button",          
         "components/plugins/process_manager/process_halt_button",          
-        "components/plugins/process_manager/process_delete_button",          
+        "components/plugins/process_manager/process_delete_button",
+        "components/object_field_label",
+        "components/object_field_text",       
+        "components/table",       
 ], 
        function($,base,content_module,list_detaied,list_detailed_item,li,object_form,section_split,
                  field_text,field_container,button,link,page_layered,table,content,
@@ -15,6 +18,9 @@ define(["jquery","components/base","components/content","components/list_detaile
                  process_setting_button,
                  process_halt_button,
                  process_delete_button,
+                 field_label,
+                 field_text,
+                 table,
                 
                 ) {
     var module = {};
@@ -49,13 +55,52 @@ define(["jquery","components/base","components/content","components/list_detaile
             row.push({'label':'view','on_click':function()
             {
                 instance.process_component.hide();
-                instance.view_component.load_data(data_list,controls);
+                var tab_map = {
+                        "Summary 1":['summary_table'],
+                        "Log 1":['experiment_id','settings'],
+                        "__SYSTEM_ALL":[],};
+                var control_map = {};
+                var c_index = 0; 
+                let defs = {'field_1':content,'field_2':content,'field_3':content};
+                let rows = [
+                            [{'content':"Name:".concat(data_list['name'])},
+                             {'content':"Contact:"+data_list['last_contact']},
+                             {'content':"id:"+data_list['experiment_id']}],
+                            [{'content':"Status:"+data_list['status']},
+                             {'content':"Auto Restart:"+data_list['auto_restart']},
+                             {'content':"Finished:"+data_list['finished']}],
+                           ];
+                console.log(rows);
+                control_map[`summary_table`] = table.create({'def':defs,'dataframe':rows});                 
+                controls.forEach((control) => { control_map[`control_${c_index }`]=control;c_index = c_index+1;});                
+                
+                Object.keys(data_list).forEach(function(key) {
+                    control_map[key]=field_label.create({'title':key, 
+                                          'type':'text', 
+                                          'content':JSON.stringify(data_list[key])}) ;
+                });
+                //console.log(Object.keys(control_map));
+                instance.view_component.load_data(control_map,tab_map);
                 instance.view_component.show();
             }});
+            
+            
             row.push({'label':'edit','on_click':function()
             {
                 instance.process_component.hide();
-                instance.edit_component.load_data(data_list,controls);
+                var tab_map = {
+                        "Summary 2":['experiment_id','compute_node'],
+                        "Log 2":['settings'],
+                        "__SYSTEM_ALL":[],};   
+                var control_map = {};
+                Object.keys(data_list).forEach(function(key) {
+                    control_map[key]=field_text.create({'title':key, 
+                                          'type':'text', 
+                                          'content':JSON.stringify(data_list[key])}) ;
+                });
+                controls.forEach((control) => { control_map[`control_${c_index }`]=control;});                
+                                
+                instance.edit_component.load_data(control_map,tab_map );
                 instance.edit_component.show();
             }});
 

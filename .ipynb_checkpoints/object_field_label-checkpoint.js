@@ -12,13 +12,13 @@ define(["jquery",'components/base','components/uuid4'], function($,base) {
         instance.render = function()
         {
             return `
-              <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+              <div id="${instance.id()}"  class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                 <div class="sm:col-span-3">
                   <label for="${instance.field_name}" class="block text-sm font-medium text-gray-700">
                     ${instance.field_title}
                   </label>
                   <div class="mt-1">
-                    <label  name="${instance.field_name}" id="${instance.id()}" placeholder="${instance.field_name}" class="shadow-sm block p-2 w-full border-black rounded-md">${instance.field_content}</label>
+                    <label  name="${instance.field_name}" placeholder="${instance.field_name}" class="shadow-sm block p-2 w-full border-black rounded-md">${instance.field_content}</label>
                   </div>
                 </div>
               </div>`;
