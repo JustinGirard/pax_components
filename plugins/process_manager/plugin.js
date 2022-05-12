@@ -27,6 +27,47 @@ define(["jquery","components/base","components/content","components/list_detaile
     
     module.create = (data) => {
         var instance = list_view_edit_plugin.create(data);
+        instance.appstate = data.appstate;
+        
+        instance.create_log_section = (data) =>
+        {
+            var i_log_section = base.create(data);
+            i_log_section.experiment_id = data.experiment_id;
+            i_log_section.appstate = data.appstate;
+            i_log_section.render = function(){
+                //return `<div id='${i_log_section.id()}'>loading ${data.experiment_id}</div>`;
+                //console.log(data.appstate);
+                var dt = new Date();
+                var hrs = dt .getHours() - 2;
+                if  (hrs < 0) hrs = 0; 
+                var start_date = new Date(dt .getUTCFullYear(), dt .getUTCMonth(), dt .getUTCDate(), hrs, 0, 0, 0);
+                var end_date = new Date(dt .getUTCFullYear(), dt .getUTCMonth(), dt .getUTCDate(), 
+                                        dt .getHours(), dt .getMinutes(), dt .getSeconds(), 0);
+                start_date = start_date.toISOString().split(".")[0];
+                end_date = end_date.toISOString().split(".")[0];
+                
+                i_log_section.appstate.get('pq').query('get_data',{'experiment_id':i_log_section.experiment_id,
+                                                              'start_date':start_date,'end_date':end_date,
+                                                             },function(data) {
+                    let rows = [];
+                    let cols = {};
+                    var h_out = "";
+                    data.forEach((row) =>{ 
+
+                        if (row.date) 
+                            h_out = h_out + `<br><b>${row.date}</b>`.replaceAll('\n','<br>');
+                        if (row.stdout) 
+                            h_out = h_out + `<br><p>${row.stdout}</p>`.replaceAll('\n','<br>');
+                        if (row.stderr) 
+                            h_out = h_out + `<br><p>${row.runtime_log}</p>`.replaceAll('\n','<br>');
+                    });
+                    $(`#${i_log_section.id()}`).html(h_out);
+                });
+                return `<div id='${i_log_section.id()}'>loading ${data.experiment_id}</div>`;
+            };
+            return i_log_section;
+        }
+        
         instance.load_row_into = (rows,process_data,index,selected_keys) =>
         {
             var row = [];
@@ -51,17 +92,16 @@ define(["jquery","components/base","components/content","components/list_detaile
                                                           'experiment_id':data_list['experiment_id']}));
             controls.push( process_delete_button.create({'appstate':instance.appstate,'label':'Delete', 
                                                           'experiment_id':data_list['experiment_id'],}));
-
+            
             row.push({'label':'view','on_click':function()
             {
                 instance.process_component.hide();
                 var tab_map = {
-                        "Summary 1":['summary_table'],
-                        "Log 1":['experiment_id','settings'],
+                        "Summary":['summary_table','settings','execution_notes','__network_settings'],
+                        "Logs":['log_table'],
                         "__SYSTEM_ALL":[],};
                 var control_map = {};
                 var c_index = 0; 
-                let defs = {'field_1':content,'field_2':content,'field_3':content};
                 let rows = [
                             [{'content':"Name:".concat(data_list['name'])},
                              {'content':"Contact:"+data_list['last_contact']},
@@ -70,16 +110,17 @@ define(["jquery","components/base","components/content","components/list_detaile
                              {'content':"Auto Restart:"+data_list['auto_restart']},
                              {'content':"Finished:"+data_list['finished']}],
                            ];
-                console.log(rows);
-                control_map[`summary_table`] = table.create({'def':defs,'dataframe':rows});                 
+                control_map[`summary_table`] = table.create({'def':{'field_1':content,'field_2':content,'field_3':content},
+                                                             'dataframe':rows});
+                control_map[`log_table`] = instance.create_log_section({'experiment_id':data_list['experiment_id'],
+                                                                       'appstate':instance.appstate
+                                                                       });
                 controls.forEach((control) => { control_map[`control_${c_index }`]=control;c_index = c_index+1;});                
-                
                 Object.keys(data_list).forEach(function(key) {
                     control_map[key]=field_label.create({'title':key, 
                                           'type':'text', 
-                                          'content':JSON.stringify(data_list[key])}) ;
+                                          'content':JSON.stringify(data_list[key])});
                 });
-                //console.log(Object.keys(control_map));
                 instance.view_component.load_data(control_map,tab_map);
                 instance.view_component.show();
             }});
@@ -114,6 +155,7 @@ define(["jquery","components/base","components/content","components/list_detaile
         }
         
         instance.load_list = (instance) =>{
+            
             var proq_q = instance.process_component.process_query;
             if (instance.appstate.get_api_key()== undefined)
                 return;
